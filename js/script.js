@@ -57,14 +57,24 @@ setTimeout(() => {
     alert('Inserisci i numeri visualizzati uno per volta')
     let point = 0;
     for (let i = 0; i < randomNumbers.length; i++) {
-        const userNumber = parseInt(prompt('Inserisci un numero'));
+        let userNumber = parseInt(prompt('Inserisci un numero'));
+        while (isNaN(userNumber)) {
+            userNumber = parseInt(prompt('Valore non valido. Inserisci un numero'));
+        }
+        
         userNumbers.push(userNumber);
         if (randomNumbers.includes(userNumber)) {
             point++;
         }
     }
+    let title = '';
 
-    const title = `<h1>Hai inserito correttamente ${point} numeri</h1>`;
+    if (point == randomNumbers.length) {
+        title = `<h1>Hai inserito correttamente tutti i numeri! Complimenti</h1>`;
+    } else  {
+        title = `<h1>Hai inserito correttamente ${point} numeri</h1>`;
+    }
+
     main.innerHTML = title;
     main.append(createListDom(randomNumbers));
     main.append(createListDom(userNumbers));
