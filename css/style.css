@@ -3,3 +3,18 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+main {
+    width: 50%;
+    margin: 1em auto;
+    text-align: center;
+}
+
+.num-container {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2em;
+    font-size: 2em;
+    font-weight: bold;
+}
