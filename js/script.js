@@ -17,13 +17,6 @@ function createRandomArray(num){
     return arrayRandom;
 }
 
-// Visualizzare in pagina 5 numeri casuali.
-
-let seconds = 30;
-
-const randomNumbers = createRandomArray(5);
-const userNumbers = [];
-
 function createListDom(list) {
     const listElement = document.createElement('ul');
     listElement.classList.add('num-container');
@@ -45,19 +38,39 @@ function createListDom(list) {
     return listElement;
 }
 
+// Visualizzare in pagina 5 numeri casuali.
+
+let seconds = 30;
+const randomNumbers = createRandomArray(5);
+const userNumbers = [];
 const main = document.querySelector('main');
-main.append(createListDom(randomNumbers));
 const second = document.getElementById('seconds');
+
+main.append(createListDom(randomNumbers));
 second.innerText = seconds;
+
+const timer = setInterval(() => {
+    if (seconds > 0) {
+        second.innerText = seconds;
+        seconds--;
+    } else {
+        second.innerText = '0'
+        clearInterval(timer);
+    }
+}, 1000);
 
 // Da lì parte un timer di 30 secondi.
 setTimeout(() => {
     main.innerHTML = '';
-
+    
+    // Dopo 30 secondi l’utente deve inserire, uno alla volta, i numeri che ha visto precedentemente, tramite il prompt().
+    
     alert('Inserisci i numeri visualizzati uno per volta')
     let point = 0;
     for (let i = 0; i < randomNumbers.length; i++) {
+
         let userNumber = parseInt(prompt('Inserisci un numero'));
+        
         while (isNaN(userNumber)) {
             userNumber = parseInt(prompt('Valore non valido. Inserisci un numero'));
         }
@@ -67,8 +80,10 @@ setTimeout(() => {
             point++;
         }
     }
+    
     let title = '';
-
+    
+    // Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
     if (point == randomNumbers.length) {
         title = `<h1>Hai inserito correttamente tutti i numeri! Complimenti</h1>`;
     } else  {
@@ -81,7 +96,7 @@ setTimeout(() => {
 
     const userList = document.querySelectorAll('.list-user li');
     const randomList = document.querySelectorAll('.list-random li');
-
+    
     console.log(userList);
     for (let i = 0; i < randomList.length; i++) {
         const number = parseInt(userList[i].innerText);
@@ -90,22 +105,6 @@ setTimeout(() => {
         } 
         
     }
-
-
-}, ((seconds+2)*1000));
-
-
-const timer = setInterval(() => {
-    if (seconds > 0) {
-        second.innerText = seconds;
-        seconds--;
-    } else {
-        second.innerText = '0'
-        clearInterval(timer);
-    }
-}, 1000);
-
-// Dopo 30 secondi l’utente deve inserire, uno alla volta, i numeri che ha visto precedentemente, tramite il prompt().
     
-
-// Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
+    
+}, ((seconds+2)*1000));
