@@ -39,22 +39,66 @@ function createListDom(list) {
 }
 
 // Visualizzare in pagina 5 numeri casuali.
-
+let clicked = false;
 let seconds = 30;
-const randomNumbers = createRandomArray(5);
+let secondsUp = 5;
+let randomNumbers = createRandomArray(5);
 const userNumbers = [];
 const main = document.querySelector('main');
-const randomList = createRandomArray();
-main.append(createListDom(randomNumbers));
+const select = document.getElementById('difficulty');
+const playButton = document.getElementById('play-button');
 
-setTimeout(() => {
-    main.innerHTML = '';
+function selectChoice() {
+    if (!clicked){
+        const selectValue = select.value;
+        switch (selectValue) {
+            case 'easy':
+                seconds = 30;
+                secondsUp = 5;
+                randomNumbers = createRandomArray(5);
+                break;
+            case 'medium':
+                seconds = 30;
+                secondsUp = 5;
+                randomNumbers = createRandomArray(7);
+                break;
+            case 'hard':
+                seconds = 50;
+                secondsUp = 10;
+                randomNumbers = createRandomArray(7);
+                break;
+            case 'crazy':
+                seconds = 50;
+                secondsUp = 10;
+                randomNumbers = createRandomArray(10);
+                break;
     
+        }
+    }
+}
+
+select.addEventListener('change', selectChoice, false);
+
+playButton.addEventListener('click', function(){
+    if (!clicked){
+        main.innerHTML = '';
+        main.append(createListDom(randomNumbers));
+        setTimeout(startGame, secondsUp * 1000);
+        clicked = true;
+    }
+
+});
+
+
+
+function startGame() {
+    main.innerHTML = '';
+
     const countdown = `<h1>Tempo rimanente: <span id="seconds"></span></h1>`;
     main.innerHTML = countdown;
     const second = document.getElementById('seconds');
     second.innerText = seconds;
-    
+
     const timer = setInterval(() => {
         if (seconds > 0) {
             second.innerText = seconds.toFixed(1);
@@ -62,10 +106,10 @@ setTimeout(() => {
         } else {
             second.innerText = '0'
             clearInterval(timer);
-            declareNumberFunction();  
+            declareNumberFunction();
         }
     }, 10);
-}, 5000);
+}
 
 function declareNumberFunction() {
     main.innerHTML = '';
@@ -73,9 +117,9 @@ function declareNumberFunction() {
     let point = 0;
     for (let i = 0; i < randomNumbers.length; i++) {
 
-        let userNumber = parseInt(prompt('Inserisci un numero'));
+        let userNumber = parseInt(prompt('Inserisci un numero tra 1 e 50'));
 
-        while (isNaN(userNumber)) {
+        while (isNaN(userNumber) || userNumber < 1 || userNumber > 50 || userNumbers.includes(userNumber)) {
             userNumber = parseInt(prompt('Valore non valido. Inserisci un numero'));
         }
 
@@ -108,4 +152,5 @@ function declareNumberFunction() {
         }
 
     }
+    clicked = false;
 }
