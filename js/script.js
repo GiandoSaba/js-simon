@@ -81,6 +81,7 @@ select.addEventListener('change', selectChoice, false);
 
 playButton.addEventListener('click', function(){
     if (!clicked){
+        selectChoice();
         main.innerHTML = '';
         main.append(createListDom(randomNumbers));
         setTimeout(startGame, secondsUp * 1000);
